@@ -1,0 +1,116 @@
+import 'dart:typed_data';
+
+/// A launchable app installed on the device, as reported by the native
+/// PackageManager query.
+final class InstalledApp {
+  const InstalledApp({
+    required this.packageName,
+    required this.label,
+    this.icon,
+  });
+
+  final String packageName;
+  final String label;
+
+  /// PNG bytes of the launcher icon, or null when unavailable.
+  final Uint8List? icon;
+}
+
+/// Snapshot of the special-access permissions the enforcement service needs.
+final class PermissionStates {
+  const PermissionStates({
+    required this.usageAccess,
+    required this.overlay,
+    required this.notifications,
+    required this.batteryExempt,
+    required this.serviceRunning,
+  });
+
+  const PermissionStates.unknown()
+      : usageAccess = false,
+        overlay = false,
+        notifications = false,
+        batteryExempt = false,
+        serviceRunning = false;
+
+  final bool usageAccess;
+  final bool overlay;
+  final bool notifications;
+  final bool batteryExempt;
+  final bool serviceRunning;
+
+  /// The two permissions without which cross-app locking cannot work at all.
+  bool get canEnforce => usageAccess && overlay;
+
+  /// Everything granted and the monitor actually running.
+  bool get protectionActive => canEnforce && serviceRunning;
+
+  PermissionStates copyWith({
+    bool? usageAccess,
+    bool? overlay,
+    bool? notifications,
+    bool? batteryExempt,
+    bool? serviceRunning,
+  }) =>
+      PermissionStates(
+        usageAccess: usageAccess ?? this.usageAccess,
+        overlay: overlay ?? this.overlay,
+        notifications: notifications ?? this.notifications,
+        batteryExempt: batteryExempt ?? this.batteryExempt,
+        serviceRunning: serviceRunning ?? this.serviceRunning,
+      );
+}
+
+/// A recorded intruder event: a failed-unlock burst against a locked app,
+/// optionally with a silently captured front-camera photo.
+final class IntruderRecord {
+  const IntruderRecord({
+    required this.id,
+    required this.packageName,
+    required this.timestamp,
+    this.photoPath,
+  });
+
+  factory IntruderRecord.fromMap(Map<Object?, Object?> map) => IntruderRecord(
+        id: map['id'] as String? ?? '',
+        packageName: map['package'] as String? ?? '',
+        timestamp: DateTime.fromMillisecondsSinceEpoch(
+          (map['timestamp'] as num?)?.toInt() ?? 0,
+        ),
+        photoPath: map['photoPath'] as String?,
+      );
+
+  final String id;
+  final String packageName;
+  final DateTime timestamp;
+  final String? photoPath;
+}
+
+/// The bridge to the native enforcement layer (`latchly/enforcement`
+/// MethodChannel). Every platform interaction goes through this interface so
+/// the whole Flutter app is testable with an in-memory fake — no platform
+/// channels in tests.
+abstract interface class IEnforcementBridge {
+  /// Writes the enforcement subset of the config into the native
+  /// EncryptedSharedPreferences the monitor service reads.
+  Future<void> pushConfig(Map<String, dynamic> config);
+
+  /// The list of launchable apps (excluding Latchly and launcher-less system
+  /// apps) for the app picker.
+  Future<List<InstalledApp>> getInstalledApps();
+
+  Future<PermissionStates> getPermissionStates();
+
+  Future<void> requestUsageAccess();
+  Future<void> requestOverlayPermission();
+  Future<void> requestBatteryExemption();
+  Future<void> requestNotificationPermission();
+
+  Future<bool> isServiceRunning();
+  Future<void> startService();
+  Future<void> stopService();
+
+  Future<List<IntruderRecord>> getIntruderRecords();
+  Future<void> deleteIntruderRecord(String id);
+  Future<void> clearIntruderRecords();
+}
