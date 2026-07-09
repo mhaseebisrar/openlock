@@ -11,7 +11,7 @@ class LatchlyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     return MaterialApp.router(
-      title: 'Latchly',
+      title: 'OpenLock',
       theme: AppTheme.build(Brightness.light, accent: latchlyAccent),
       darkTheme: AppTheme.build(Brightness.dark, accent: latchlyAccent),
       themeMode: ThemeMode.system,

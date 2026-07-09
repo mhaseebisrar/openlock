@@ -110,6 +110,18 @@ abstract interface class IEnforcementBridge {
   Future<void> startService();
   Future<void> stopService();
 
+  /// Whether OpenLock is currently an active device administrator. While it is,
+  /// Android blocks the app from being uninstalled until admin is deactivated.
+  Future<bool> isDeviceAdminActive();
+
+  /// Launches the system "activate device admin" dialog. The user must confirm;
+  /// the resulting state is read back via [isDeviceAdminActive].
+  Future<void> requestDeviceAdmin();
+
+  /// Programmatically deactivates device admin (lifting uninstall protection).
+  /// Callers MUST have re-authenticated the user in-app first.
+  Future<void> deactivateDeviceAdmin();
+
   Future<List<IntruderRecord>> getIntruderRecords();
   Future<void> deleteIntruderRecord(String id);
   Future<void> clearIntruderRecords();

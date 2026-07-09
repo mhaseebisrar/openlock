@@ -2,6 +2,8 @@ package dev.abdullah.latchly
 
 import android.app.Activity
 import android.app.AppOpsManager
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -79,6 +81,15 @@ class EnforcementPlugin(private val activity: Activity) :
             }
             "stopService" -> {
                 stopService()
+                result.success(null)
+            }
+            "isDeviceAdminActive" -> result.success(isDeviceAdminActive())
+            "requestDeviceAdmin" -> {
+                requestDeviceAdmin()
+                result.success(null)
+            }
+            "deactivateDeviceAdmin" -> {
+                deactivateDeviceAdmin()
                 result.success(null)
             }
             "getIntruderRecords" -> result.success(store.intruderRecords())
@@ -218,6 +229,35 @@ class EnforcementPlugin(private val activity: Activity) :
             activity.stopService(Intent(activity, LatchlyMonitorService::class.java))
         }
         LockSession.clearAll()
+    }
+
+    // --- Device admin (uninstall protection) --------------------------------
+
+    private fun adminComponent(): ComponentName =
+        ComponentName(activity, OpenLockDeviceAdminReceiver::class.java)
+
+    private fun devicePolicyManager(): DevicePolicyManager =
+        activity.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+
+    private fun isDeviceAdminActive(): Boolean =
+        runCatching { devicePolicyManager().isAdminActive(adminComponent()) }
+            .getOrDefault(false)
+
+    private fun requestDeviceAdmin() {
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
+            putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent())
+            putExtra(
+                DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+                "OpenLock uses device administrator access only to block itself " +
+                    "from being uninstalled while protection is on. It never " +
+                    "manages, locks, or wipes your device.",
+            )
+        }
+        launch(intent)
+    }
+
+    private fun deactivateDeviceAdmin() {
+        runCatching { devicePolicyManager().removeActiveAdmin(adminComponent()) }
     }
 
     private fun launch(intent: Intent) {

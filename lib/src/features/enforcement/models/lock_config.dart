@@ -14,6 +14,7 @@ final class LockConfig {
     this.intruderCaptureEnabled = false,
     this.intruderThreshold = 3,
     this.fakeCoverEnabled = false,
+    this.preventUninstall = false,
     this.schedules = const [],
   });
 
@@ -36,6 +37,11 @@ final class LockConfig {
   /// Show a fake "app has stopped" decoy instead of the lock screen.
   final bool fakeCoverEnabled;
 
+  /// Device-admin uninstall protection is on. Mirrors whether OpenLock is an
+  /// active device administrator; also tells the native monitor to guard the
+  /// OS deactivate-admin / app-info / uninstall screens.
+  final bool preventUninstall;
+
   final List<LockSchedule> schedules;
 
   static const LockConfig empty = LockConfig();
@@ -48,6 +54,7 @@ final class LockConfig {
     bool? intruderCaptureEnabled,
     int? intruderThreshold,
     bool? fakeCoverEnabled,
+    bool? preventUninstall,
     List<LockSchedule>? schedules,
   }) =>
       LockConfig(
@@ -59,6 +66,7 @@ final class LockConfig {
             intruderCaptureEnabled ?? this.intruderCaptureEnabled,
         intruderThreshold: intruderThreshold ?? this.intruderThreshold,
         fakeCoverEnabled: fakeCoverEnabled ?? this.fakeCoverEnabled,
+        preventUninstall: preventUninstall ?? this.preventUninstall,
         schedules: schedules ?? this.schedules,
       );
 
@@ -70,6 +78,7 @@ final class LockConfig {
         'intruderCaptureEnabled': intruderCaptureEnabled,
         'intruderThreshold': intruderThreshold,
         'fakeCoverEnabled': fakeCoverEnabled,
+        'preventUninstall': preventUninstall,
         'schedules': schedules.map((s) => s.toJson()).toList(),
       };
 
@@ -86,6 +95,7 @@ final class LockConfig {
             json['intruderCaptureEnabled'] as bool? ?? false,
         intruderThreshold: (json['intruderThreshold'] as num?)?.toInt() ?? 3,
         fakeCoverEnabled: json['fakeCoverEnabled'] as bool? ?? false,
+        preventUninstall: json['preventUninstall'] as bool? ?? false,
         schedules: ((json['schedules'] as List<dynamic>?) ?? const [])
             .map((e) => LockSchedule.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -97,6 +107,7 @@ final class LockConfig {
   Map<String, dynamic> toNativeMap({
     required String pinHash,
     required String pinSalt,
+    bool biometricEnabled = false,
   }) =>
       {
         'lockedPackages': lockedPackages.toList()..sort(),
@@ -106,6 +117,8 @@ final class LockConfig {
         'intruderCaptureEnabled': intruderCaptureEnabled,
         'intruderThreshold': intruderThreshold,
         'fakeCoverEnabled': fakeCoverEnabled,
+        'preventUninstall': preventUninstall,
+        'biometricEnabled': biometricEnabled,
         'schedules': schedules.map((s) => s.toJson()).toList(),
         'pinHash': pinHash,
         'pinSalt': pinSalt,

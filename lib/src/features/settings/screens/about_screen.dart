@@ -43,7 +43,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    'Latchly runs entirely on your device. Your lock settings '
+                    'OpenLock runs entirely on your device. Your lock settings '
                     'and any intruder photos are encrypted and never leave '
                     'your phone. No account, no ads, no tracking.',
                     style: AppTextStyles.bodyMedium.copyWith(

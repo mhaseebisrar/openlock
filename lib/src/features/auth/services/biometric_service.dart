@@ -36,6 +36,6 @@ final class BiometricService {
   /// Shows the biometric prompt. Returns true on success.
   Future<bool> authenticate() async {
     if (!await isEnabled()) return false;
-    return _biometric.authenticate(reason: 'Unlock Latchly');
+    return _biometric.authenticate(reason: 'Unlock OpenLock');
   }
 }

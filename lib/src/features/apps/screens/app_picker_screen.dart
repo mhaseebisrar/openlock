@@ -140,7 +140,14 @@ class _AppTile extends StatelessWidget {
         width: 40,
         height: 40,
         child: app.icon != null
-            ? Image.memory(app.icon!, gaplessPlayback: true)
+            ? Image.memory(
+                app.icon!,
+                gaplessPlayback: true,
+                // Icons arrive as 96px PNGs; decode at that size (not full
+                // resolution) to keep the scrolling list light.
+                cacheWidth: 96,
+                cacheHeight: 96,
+              )
             : Icon(Icons.android, color: scheme.onSurfaceVariant),
       ),
       title: Text(app.label, maxLines: 1, overflow: TextOverflow.ellipsis),

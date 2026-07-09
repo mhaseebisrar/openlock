@@ -89,7 +89,7 @@ class _SetupPinScreenState extends ConsumerState<SetupPinScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'This PIN unlocks Latchly and every app you lock. Choose '
+                'This PIN unlocks OpenLock and every app you lock. Choose '
                 'something only you know.',
                 style: AppTextStyles.bodyMedium.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,

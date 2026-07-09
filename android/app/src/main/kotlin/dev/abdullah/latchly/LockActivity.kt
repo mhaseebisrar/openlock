@@ -33,6 +33,12 @@ class LockActivity : FragmentActivity() {
     private var failedAttempts = 0
     private var locked = false
 
+    /** The real PIN screen (not the decoy) is showing → biometrics apply. */
+    private var realLockShown = false
+
+    /** A BiometricPrompt is currently up; guards against double-prompting. */
+    private var biometricInFlight = false
+
     private lateinit var dotsView: TextView
     private lateinit var messageView: TextView
     private val handler = Handler(Looper.getMainLooper())
@@ -57,9 +63,23 @@ class LockActivity : FragmentActivity() {
         if (store.fakeCoverEnabled()) {
             setContentView(buildDecoyView())
         } else {
-            setContentView(buildLockView())
-            maybeOfferBiometric()
+            showRealLock()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Auto-trigger the biometric prompt once every time the real lock
+        // screen appears (deterministic; the in-flight guard prevents the
+        // onCreate + onResume pair from stacking two prompts).
+        if (realLockShown) triggerBiometric()
+    }
+
+    /** Swaps in the real PIN screen and kicks off the biometric prompt. */
+    private fun showRealLock() {
+        setContentView(buildLockView())
+        realLockShown = true
+        triggerBiometric()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -122,6 +142,21 @@ class LockActivity : FragmentActivity() {
         root.addView(messageView)
 
         root.addView(buildKeypad())
+
+        // If the user enabled biometrics, always show the fingerprint button
+        // immediately — no async capability probe hiding it. Tapping re-triggers
+        // the prompt; the PIN pad above stays available as the fallback.
+        if (store.biometricEnabled()) {
+            root.addView(TextView(this).apply {
+                text = "☝ Use fingerprint"
+                setTextColor(color(R.color.lockAccent))
+                textSize = 16f
+                gravity = Gravity.CENTER
+                setPadding(0, dp(16), 0, 0)
+                setOnClickListener { triggerBiometric() }
+            })
+        }
+
         updateDots()
         return root
     }
@@ -209,8 +244,7 @@ class LockActivity : FragmentActivity() {
         })
         // Hidden gesture: long-press the card reveals the real lock screen.
         card.setOnLongClickListener {
-            setContentView(buildLockView())
-            maybeOfferBiometric()
+            showRealLock()
             true
         }
         root.addView(card)
@@ -292,14 +326,25 @@ class LockActivity : FragmentActivity() {
 
     // --- Biometric ----------------------------------------------------------
 
-    private fun maybeOfferBiometric() {
-        val manager = BiometricManager.from(this)
-        val canAuth = manager.canAuthenticate(
-            BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                BiometricManager.Authenticators.BIOMETRIC_WEAK,
-        )
-        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) return
+    /**
+     * Shows the biometric prompt when the user has enabled biometrics. Called
+     * on every appearance of the real lock screen and on tapping the button.
+     * Idempotent while a prompt is up. If hardware is unavailable, it leaves a
+     * note and the PIN pad remains the fallback.
+     */
+    private fun triggerBiometric() {
+        if (biometricInFlight) return
+        if (!store.biometricEnabled()) return
 
+        val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or
+            BiometricManager.Authenticators.BIOMETRIC_WEAK
+        val canAuth = BiometricManager.from(this).canAuthenticate(authenticators)
+        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
+            messageView.text = "Fingerprint unavailable — enter your PIN"
+            return
+        }
+
+        biometricInFlight = true
         val prompt = BiometricPrompt(
             this,
             ContextCompat.getMainExecutor(this),
@@ -307,7 +352,21 @@ class LockActivity : FragmentActivity() {
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult,
                 ) {
+                    biometricInFlight = false
                     unlockAndFinish()
+                }
+
+                override fun onAuthenticationError(
+                    errorCode: Int,
+                    errString: CharSequence,
+                ) {
+                    // Cancel / "Use PIN" / lockout — drop back to the PIN pad;
+                    // do not auto-re-prompt until the screen reappears.
+                    biometricInFlight = false
+                }
+
+                override fun onAuthenticationFailed() {
+                    // A single non-matching finger; the prompt stays up.
                 }
             },
         )
@@ -315,12 +374,11 @@ class LockActivity : FragmentActivity() {
             .setTitle("Unlock ${appLabel(lockedPackage)}")
             .setSubtitle("Use your fingerprint or enter your PIN")
             .setNegativeButtonText("Use PIN")
-            .setAllowedAuthenticators(
-                BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                    BiometricManager.Authenticators.BIOMETRIC_WEAK,
-            )
+            .setAllowedAuthenticators(authenticators)
             .build()
-        runCatching { prompt.authenticate(info) }
+        runCatching { prompt.authenticate(info) }.onFailure {
+            biometricInFlight = false
+        }
     }
 
     // --- Helpers ------------------------------------------------------------

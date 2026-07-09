@@ -24,14 +24,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     _OnboardingPage(
       Icons.shield_rounded,
       'Lock the apps that matter',
-      'Pick any apps on your phone and Latchly keeps them behind your PIN, '
+      'Pick any apps on your phone and OpenLock keeps them behind your PIN, '
           'pattern, or fingerprint.',
     ),
     _OnboardingPage(
       Icons.schedule_rounded,
       'Focus on your schedule',
       'Lock social apps during work hours, games during study time — set '
-          'windows and Latchly enforces them automatically.',
+          'windows and OpenLock enforces them automatically.',
     ),
     _OnboardingPage(
       Icons.phonelink_lock_rounded,

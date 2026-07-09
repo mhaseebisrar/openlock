@@ -79,7 +79,9 @@ class LatchlyMonitorService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun tick() {
-        val current = foregroundApp() ?: return
+        val foreground = foregroundApp() ?: return
+        val current = foreground.first
+        val currentClass = foreground.second
         val now = System.currentTimeMillis()
 
         // Track departures from the foreground for the relock policy.
@@ -91,6 +93,27 @@ class LatchlyMonitorService : Service() {
 
         // Never lock ourselves.
         if (current == packageName) return
+
+        // Uninstall protection: guard the OS deactivate-admin / app-info /
+        // uninstall screens (best-effort; see LockLogic + README). Runs before
+        // the normal locked-app check because Settings is not in the locked set.
+        if (store.pinHash() != null &&
+            LockLogic.shouldGuardUninstall(store.preventUninstall(), current, currentClass)
+        ) {
+            // Respect an in-session unlock so the user can actually reach the
+            // deactivate screen after authenticating; re-lock once the screen
+            // has turned off since.
+            val unlockedAt = LockSession.unlockedAt(current)
+            val stillUnlocked = unlockedAt != 0L && screenOffAt <= unlockedAt
+            if (!stillUnlocked &&
+                !(current == lastLaunchedPkg && now - lastLaunchAt < RELAUNCH_GUARD_MS)
+            ) {
+                lastLaunchedPkg = current
+                lastLaunchAt = now
+                launchLock(current)
+            }
+            return
+        }
 
         val locked = HashSet(store.lockedPackages())
         locked.addAll(LockLogic.scheduledLockedPackages(store.schedules(), Calendar.getInstance()))
@@ -125,19 +148,23 @@ class LatchlyMonitorService : Service() {
         runCatching { startActivity(intent) }
     }
 
-    private fun foregroundApp(): String? {
+    /** The latest foreground (package, activityClass). Class name powers the
+     *  best-effort uninstall-screen guard; it may be null on some devices. */
+    private fun foregroundApp(): Pair<String, String?>? {
         val end = System.currentTimeMillis()
         val begin = end - LOOKBACK_MS
         val events = usageStatsManager.queryEvents(begin, end)
         var pkg: String? = null
+        var cls: String? = null
         val event = UsageEvents.Event()
         while (events.hasNextEvent()) {
             events.getNextEvent(event)
             if (event.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) {
                 pkg = event.packageName
+                cls = event.className
             }
         }
-        return pkg
+        return pkg?.let { Pair(it, cls) }
     }
 
     private fun buildNotification(): Notification {
@@ -148,7 +175,7 @@ class LatchlyMonitorService : Service() {
                 "App lock protection",
                 NotificationManager.IMPORTANCE_LOW,
             ).apply {
-                description = "Shown while Latchly is guarding your apps."
+                description = "Shown while OpenLock is guarding your apps."
                 setShowBadge(false)
             }
             manager.createNotificationChannel(channel)
@@ -171,7 +198,7 @@ class LatchlyMonitorService : Service() {
             Notification.Builder(this)
         }
         return builder
-            .setContentTitle("Latchly is protecting your apps")
+            .setContentTitle("OpenLock is protecting your apps")
             .setContentText("Locked apps stay behind your PIN.")
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setOngoing(true)

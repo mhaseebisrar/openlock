@@ -65,7 +65,7 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen>
               icon: Icons.query_stats_rounded,
               title: 'Usage access',
               subtitle:
-                  'Lets Latchly notice which app is open so it can lock it.',
+                  'Lets OpenLock notice which app is open so it can lock it.',
               granted: states.usageAccess,
               required: true,
               onFix: controller.requestUsageAccess,
@@ -148,7 +148,7 @@ class _StatusBanner extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   active
-                      ? 'Latchly is guarding your locked apps.'
+                      ? 'OpenLock is guarding your locked apps.'
                       : 'Grant the required permissions below to start.',
                   style: AppTextStyles.bodySmall.copyWith(
                     color: scheme.onSurfaceVariant,

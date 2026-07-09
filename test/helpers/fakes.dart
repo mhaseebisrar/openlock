@@ -106,6 +106,9 @@ final class FakeEnforcementBridge implements IEnforcementBridge {
   Map<String, dynamic>? lastPushedConfig;
   final List<IntruderRecord> records = [];
   bool serviceRunning = false;
+  bool deviceAdminActive = false;
+  bool deviceAdminRequested = false;
+  bool deviceAdminDeactivated = false;
 
   @override
   Future<void> pushConfig(Map<String, dynamic> config) async =>
@@ -137,6 +140,18 @@ final class FakeEnforcementBridge implements IEnforcementBridge {
 
   @override
   Future<void> stopService() async => serviceRunning = false;
+
+  @override
+  Future<bool> isDeviceAdminActive() async => deviceAdminActive;
+
+  @override
+  Future<void> requestDeviceAdmin() async => deviceAdminRequested = true;
+
+  @override
+  Future<void> deactivateDeviceAdmin() async {
+    deviceAdminDeactivated = true;
+    deviceAdminActive = false;
+  }
 
   @override
   Future<List<IntruderRecord>> getIntruderRecords() async => records;

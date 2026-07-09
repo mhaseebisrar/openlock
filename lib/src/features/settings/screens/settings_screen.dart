@@ -9,8 +9,35 @@ import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
 import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
 import 'package:latchly/src/features/settings/providers/settings_providers.dart';
 
-class SettingsScreen extends ConsumerWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends ConsumerState<SettingsScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Re-read the live device-admin state after returning from the system
+    // "activate device admin" dialog.
+    if (state == AppLifecycleState.resumed) {
+      ref.read(preventUninstallControllerProvider.notifier).refresh();
+    }
+  }
 
   String _relockLabel(RelockPolicy policy) {
     switch (policy.mode) {
@@ -23,8 +50,77 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
+  /// In-app re-auth required before device admin can be deactivated. Tries
+  /// biometrics first (if enabled), then falls back to a PIN prompt. Returns
+  /// true only on a successful check.
+  Future<bool> _authenticateForDisable() async {
+    final biometric = ref.read(biometricServiceProvider);
+    if (await biometric.isEnabled() && await biometric.authenticate()) {
+      return true;
+    }
+    if (!mounted) return false;
+    return _promptPin();
+  }
+
+  Future<bool> _promptPin() async {
+    final controller = TextEditingController();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        var error = false;
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) => AlertDialog(
+            title: const Text('Confirm your PIN'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Enter your PIN to turn off uninstall protection.',
+                ),
+                const SizedBox(height: AppSpacing.md),
+                TextField(
+                  controller: controller,
+                  obscureText: true,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'PIN',
+                    errorText: error ? 'Wrong PIN' : null,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: const Text('Cancel'),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final ok = await ref
+                      .read(pinAuthServiceProvider)
+                      .verifyPin(controller.text);
+                  if (ok) {
+                    if (dialogContext.mounted) {
+                      Navigator.pop(dialogContext, true);
+                    }
+                  } else {
+                    setDialogState(() => error = true);
+                  }
+                },
+                child: const Text('Confirm'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    controller.dispose();
+    return confirmed ?? false;
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final config =
         ref.watch(configControllerProvider).valueOrNull ?? LockConfig.empty;
     final controller = ref.read(configControllerProvider.notifier);
@@ -32,6 +128,8 @@ class SettingsScreen extends ConsumerWidget {
         ref.watch(biometricSupportedProvider).valueOrNull ?? false;
     final biometricEnabled =
         ref.watch(biometricEnabledProvider).valueOrNull ?? false;
+    final preventUninstall =
+        ref.watch(preventUninstallControllerProvider).valueOrNull ?? false;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
@@ -65,7 +163,7 @@ class SettingsScreen extends ConsumerWidget {
               title: const Text('Fingerprint unlock'),
               subtitle: Text(
                 biometricSupported
-                    ? 'Use your fingerprint to open Latchly'
+                    ? 'Use your fingerprint to open OpenLock'
                     : 'Not available on this device',
               ),
               value: biometricEnabled,
@@ -78,8 +176,43 @@ class SettingsScreen extends ConsumerWidget {
                         await service.disable();
                       }
                       ref.invalidate(biometricEnabledProvider);
+                      // Keep the native lock screen in sync with the choice.
+                      await controller.pushToNative();
                     }
                   : null,
+            ),
+            SwitchListTile(
+              secondary: const Icon(Icons.app_blocking_outlined),
+              title: const Text('Prevent uninstall'),
+              subtitle: Text(
+                preventUninstall
+                    ? 'OpenLock is a device admin — it can\'t be uninstalled '
+                        'until you turn this off with your PIN.'
+                    : 'Block OpenLock from being uninstalled without your PIN '
+                        '(uses device administrator).',
+              ),
+              value: preventUninstall,
+              onChanged: (value) async {
+                final security =
+                    ref.read(preventUninstallControllerProvider.notifier);
+                if (value) {
+                  await security.requestEnable();
+                } else {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final lifted =
+                      await security.disableWithAuth(_authenticateForDisable);
+                  if (!lifted) {
+                    messenger.showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'PIN or fingerprint required to turn off uninstall '
+                          'protection.',
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
             SwitchListTile(
               secondary: const Icon(Icons.shuffle),

@@ -16,6 +16,7 @@ void main() {
         intruderCaptureEnabled: true,
         intruderThreshold: 4,
         fakeCoverEnabled: true,
+        preventUninstall: true,
         schedules: [
           LockSchedule(
             id: 's1',
@@ -40,6 +41,7 @@ void main() {
     expect(restored.intruderCaptureEnabled, isTrue);
     expect(restored.intruderThreshold, 4);
     expect(restored.fakeCoverEnabled, isTrue);
+    expect(restored.preventUninstall, isTrue);
     expect(restored.schedules.length, 1);
     expect(restored.schedules.first.name, 'Work');
     expect(restored.schedules.first.weekdays, {1, 2, 3, 4, 5});
@@ -50,10 +52,15 @@ void main() {
     expect(config.lockedPackages, isEmpty);
     expect(config.relock.mode, RelockMode.immediately);
     expect(config.intruderThreshold, 3);
+    expect(config.preventUninstall, isFalse);
   });
 
   test('toNativeMap contains exactly the enforcement subset + verifier', () {
-    final map = sample().toNativeMap(pinHash: 'HASH', pinSalt: 'SALT');
+    final map = sample().toNativeMap(
+      pinHash: 'HASH',
+      pinSalt: 'SALT',
+      biometricEnabled: true,
+    );
 
     expect(map['lockedPackages'], ['com.game', 'com.social']); // sorted
     expect(map['relockMode'], 'afterTimeout');
@@ -62,12 +69,20 @@ void main() {
     expect(map['intruderCaptureEnabled'], true);
     expect(map['intruderThreshold'], 4);
     expect(map['fakeCoverEnabled'], true);
+    expect(map['preventUninstall'], true);
+    expect(map['biometricEnabled'], true);
     expect(map['pinHash'], 'HASH');
     expect(map['pinSalt'], 'SALT');
     expect(map['pinIterations'], 120000);
     expect((map['schedules'] as List).length, 1);
     // The native map must not leak the source-of-truth-only lockNewApps flag.
     expect(map.containsKey('lockNewApps'), isFalse);
+  });
+
+  test('toNativeMap defaults biometricEnabled to false', () {
+    final map = const LockConfig().toNativeMap(pinHash: 'H', pinSalt: 'S');
+    expect(map['biometricEnabled'], false);
+    expect(map['preventUninstall'], false);
   });
 
   test('IntruderRecord.fromMap round-trips the channel payload', () {

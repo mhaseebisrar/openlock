@@ -23,10 +23,13 @@ final class ConfigController extends AsyncNotifier<LockConfig> {
     if (config == null) return;
     final verifier = await ref.read(pinAuthServiceProvider).verifier();
     if (verifier == null) return; // no PIN yet — nothing to enforce
+    final biometricEnabled =
+        await ref.read(biometricServiceProvider).isEnabled();
     await ref.read(enforcementBridgeProvider).pushConfig(
           config.toNativeMap(
             pinHash: verifier.hash,
             pinSalt: verifier.salt,
+            biometricEnabled: biometricEnabled,
           ),
         );
   }
@@ -64,6 +67,16 @@ final class ConfigController extends AsyncNotifier<LockConfig> {
   Future<void> setFakeCover(bool value) async {
     final config = state.valueOrNull ?? LockConfig.empty;
     await _apply(config.copyWith(fakeCoverEnabled: value));
+  }
+
+  /// Persists the "prevent uninstall" intent and re-pushes it to the native
+  /// monitor so it knows whether to guard the OS deactivate-admin / app-info /
+  /// uninstall screens. Does NOT itself activate or deactivate device admin —
+  /// that is driven by [PreventUninstallController].
+  Future<void> setPreventUninstall(bool value) async {
+    final config = state.valueOrNull ?? LockConfig.empty;
+    if (config.preventUninstall == value) return;
+    await _apply(config.copyWith(preventUninstall: value));
   }
 
   Future<void> upsertSchedule(LockSchedule schedule) async {

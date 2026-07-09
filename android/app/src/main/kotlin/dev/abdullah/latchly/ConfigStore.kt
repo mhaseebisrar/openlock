@@ -74,6 +74,10 @@ class ConfigStore(context: Context) {
 
     fun fakeCoverEnabled(): Boolean = config()?.optBoolean("fakeCoverEnabled", false) ?: false
 
+    fun preventUninstall(): Boolean = config()?.optBoolean("preventUninstall", false) ?: false
+
+    fun biometricEnabled(): Boolean = config()?.optBoolean("biometricEnabled", false) ?: false
+
     fun pinHash(): String? = config()?.optString("pinHash")?.ifBlank { null }
 
     fun pinSalt(): String? = config()?.optString("pinSalt")?.ifBlank { null }

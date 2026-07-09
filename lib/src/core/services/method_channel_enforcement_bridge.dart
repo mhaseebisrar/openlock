@@ -83,6 +83,18 @@ final class MethodChannelEnforcementBridge implements IEnforcementBridge {
   Future<void> stopService() => _channel.invokeMethod<void>('stopService');
 
   @override
+  Future<bool> isDeviceAdminActive() async =>
+      await _channel.invokeMethod<bool>('isDeviceAdminActive') ?? false;
+
+  @override
+  Future<void> requestDeviceAdmin() =>
+      _channel.invokeMethod<void>('requestDeviceAdmin');
+
+  @override
+  Future<void> deactivateDeviceAdmin() =>
+      _channel.invokeMethod<void>('deactivateDeviceAdmin');
+
+  @override
   Future<List<IntruderRecord>> getIntruderRecords() async {
     final raw = await _channel.invokeListMethod<Map<Object?, Object?>>(
       'getIntruderRecords',

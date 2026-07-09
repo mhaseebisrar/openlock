@@ -129,6 +129,17 @@ final class PinAuthService {
     return diff.isNegative ? Duration.zero : diff;
   }
 
+  /// Verifies [pin] against the stored verifier WITHOUT touching the
+  /// wrong-attempt cooldown. Used by in-app re-auth gates (e.g. confirming
+  /// deactivation of uninstall protection), where the app-open lockout should
+  /// not be affected.
+  Future<bool> verifyPin(String pin) async {
+    final v = await verifier();
+    if (v == null) return false;
+    final salt = Uint8List.fromList(base64Decode(v.salt));
+    return _hasher.verify(pin: pin, salt: salt, expectedHash: v.hash);
+  }
+
   /// Changes the PIN: verifies [oldPin], then stores a fresh salt + hash.
   Future<UnlockResult> changePin({
     required String oldPin,
