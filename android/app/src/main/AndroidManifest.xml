@@ -7,6 +7,8 @@
     <!-- Draw the lock screen on top of other apps, and start it from the
          background (overlay permission exempts background-activity-start). -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- In-app update check (GitHub release lookup) — the only network use. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Persistent monitor foreground service (Android 9+ / 14 special use). -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
