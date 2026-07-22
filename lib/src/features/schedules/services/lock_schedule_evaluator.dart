@@ -1,4 +1,4 @@
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 /// Pure evaluator that answers: given these Focus Schedules and the current
 /// local time, which packages must be locked *right now*?

@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import org.json.JSONArray
 import java.util.Calendar

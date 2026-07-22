@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
 
 /// Live snapshot of the special-access permissions the monitor service needs.
 /// Refreshed whenever the user returns from a system settings screen.

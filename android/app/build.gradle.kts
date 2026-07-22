@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "dev.abdullah.latchly"
+    namespace = "dev.abdullah.openlock"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.abdullah.latchly"
+        applicationId = "dev.abdullah.openlock"
         // EncryptedSharedPreferences (AndroidKeyStore AES) needs API 23+.
         minSdk = maxOf(24, flutter.minSdkVersion)
         targetSdk = flutter.targetSdkVersion

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/features/apps/services/app_list_filter.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/features/apps/services/app_list_filter.dart';
 
 void main() {
   const apps = [

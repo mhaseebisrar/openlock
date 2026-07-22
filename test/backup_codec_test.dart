@@ -1,9 +1,9 @@
 import 'package:core_crypto/core_crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/backup/services/backup_codec.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/backup/services/backup_codec.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 import 'helpers/fakes.dart';
 
@@ -78,8 +78,8 @@ void main() {
     );
   });
 
-  test('suggestedFileName uses the .ltbackup extension', () {
+  test('suggestedFileName uses the .olbackup extension', () {
     final name = BackupCodec.suggestedFileName(DateTime(2026, 7, 8));
-    expect(name, 'latchly-2026-07-08.ltbackup');
+    expect(name, 'openlock-2026-07-08.olbackup');
   });
 }

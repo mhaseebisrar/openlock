@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:core_theme/core_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
 
 /// PIN dots + numeric keypad. Collects at least [PinAuthService.minPinLength]
 /// digits and calls [onSubmit] when the check key is tapped. When [randomize]

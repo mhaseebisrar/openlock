@@ -2,12 +2,12 @@ import 'package:core_theme/core_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/core/router/app_router.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
-import 'package:latchly/src/features/settings/providers/settings_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/core/router/app_router.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/features/settings/providers/settings_providers.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});

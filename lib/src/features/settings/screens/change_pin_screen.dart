@@ -3,9 +3,9 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
 
 class ChangePinScreen extends ConsumerStatefulWidget {
   const ChangePinScreen({super.key});

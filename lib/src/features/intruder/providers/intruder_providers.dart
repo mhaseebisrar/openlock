@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
 
 /// Recorded intruder events (failed-unlock bursts, optionally with a photo),
 /// newest first, read from native storage.

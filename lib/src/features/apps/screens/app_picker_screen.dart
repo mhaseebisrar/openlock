@@ -2,11 +2,11 @@ import 'package:core_theme/core_theme.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/features/apps/providers/apps_providers.dart';
-import 'package:latchly/src/features/apps/services/app_list_filter.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/features/apps/providers/apps_providers.dart';
+import 'package:openlock/src/features/apps/services/app_list_filter.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
 
 class AppPickerScreen extends ConsumerWidget {
   const AppPickerScreen({super.key});

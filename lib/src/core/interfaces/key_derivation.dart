@@ -4,7 +4,7 @@ import 'package:core_crypto/core_crypto.dart';
 
 /// Abstraction over key derivation so unit tests can inject a fast,
 /// deterministic fake instead of running Argon2id. Used by the encrypted
-/// `.ltbackup` codec.
+/// `.olbackup` codec.
 abstract interface class IKeyDerivation {
   Future<Uint8List> deriveKey({
     required String passphrase,

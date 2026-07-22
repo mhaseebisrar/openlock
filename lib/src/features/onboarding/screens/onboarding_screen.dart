@@ -1,7 +1,7 @@
 import 'package:core_theme/core_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/features/auth/providers/auth_providers.dart';
+import 'package:openlock/src/features/auth/providers/auth_providers.dart';
 
 /// Three-page welcome shown once, before PIN setup.
 class OnboardingScreen extends ConsumerStatefulWidget {

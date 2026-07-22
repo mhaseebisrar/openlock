@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.content.Intent
 import android.graphics.Color
@@ -148,7 +148,7 @@ class LockActivity : FragmentActivity() {
         // the prompt; the PIN pad above stays available as the fallback.
         if (store.biometricEnabled()) {
             root.addView(TextView(this).apply {
-                text = "☝ Use fingerprint"
+                text = "Use fingerprint"
                 setTextColor(color(R.color.lockAccent))
                 textSize = 16f
                 gravity = Gravity.CENTER

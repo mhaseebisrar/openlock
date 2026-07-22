@@ -1,4 +1,4 @@
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
 
 /// Pure search / sort helpers for the app picker, kept out of the widget so
 /// they can be tested directly.

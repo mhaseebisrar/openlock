@@ -1,4 +1,4 @@
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 /// Human-readable formatting for schedule times and weekdays.
 abstract final class ScheduleFormat {

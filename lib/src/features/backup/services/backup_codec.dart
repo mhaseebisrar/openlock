@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:core_crypto/core_crypto.dart';
-import 'package:latchly/src/core/app_info.dart';
-import 'package:latchly/src/core/clock.dart';
-import 'package:latchly/src/core/interfaces/key_derivation.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/core/app_info.dart';
+import 'package:openlock/src/core/clock.dart';
+import 'package:openlock/src/core/interfaces/key_derivation.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
 
 /// Why a backup could not be read.
 enum BackupError { invalidFormat, unsupportedVersion, wrongPassphrase }
@@ -19,7 +19,7 @@ final class BackupException implements Exception {
   String toString() => 'BackupException($error)';
 }
 
-/// Encrypted `.ltbackup` export/import of the Latchly [LockConfig].
+/// Encrypted `.olbackup` export/import of the OpenLock [LockConfig].
 ///
 /// The file is a JSON envelope `{formatVersion, app, appVersion, createdAt,
 /// salt, nonce, ciphertext}` where the ciphertext is the config JSON encrypted
@@ -40,7 +40,7 @@ final class BackupCodec {
   final Clock _clock;
 
   static const int formatVersion = 1;
-  static const String fileExtension = 'ltbackup';
+  static const String fileExtension = 'olbackup';
   static const int minPassphraseLength = 8;
 
   Future<String> export({
@@ -58,7 +58,7 @@ final class BackupCodec {
     key.fillRange(0, key.length, 0);
     return jsonEncode({
       'formatVersion': formatVersion,
-      'app': 'latchly',
+      'app': 'openlock',
       'appVersion': AppInfo.version,
       'createdAt': _clock.now().toIso8601String(),
       'salt': base64Encode(salt),
@@ -114,7 +114,7 @@ final class BackupCodec {
 
   static String suggestedFileName(DateTime now) {
     String two(int n) => n.toString().padLeft(2, '0');
-    return 'latchly-${now.year}-${two(now.month)}-${two(now.day)}'
+    return 'openlock-${now.year}-${two(now.month)}-${two(now.day)}'
         '.$fileExtension';
   }
 }

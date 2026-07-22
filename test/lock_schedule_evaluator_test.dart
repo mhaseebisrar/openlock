@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
-import 'package:latchly/src/features/schedules/services/lock_schedule_evaluator.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/schedules/services/lock_schedule_evaluator.dart';
 
 LockSchedule _schedule({
   Set<int> weekdays = const {1, 2, 3, 4, 5},

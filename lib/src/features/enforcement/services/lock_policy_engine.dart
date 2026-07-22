@@ -1,4 +1,4 @@
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
 
 /// The single, pure decision at the heart of the monitor service: given a
 /// locked app's session state, is it locked *right now*?

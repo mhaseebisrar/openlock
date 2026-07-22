@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.app.Activity
 import android.app.AppOpsManager
@@ -23,7 +23,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 
 /**
- * Handles the `latchly/enforcement` MethodChannel: config push, installed-app
+ * Handles the `openlock/enforcement` MethodChannel: config push, installed-app
  * enumeration, permission checks/requests, service control, and the intruder
  * log. Everything here is local to the device.
  */
@@ -74,7 +74,7 @@ class EnforcementPlugin(private val activity: Activity) :
                 requestNotifications()
                 result.success(null)
             }
-            "isServiceRunning" -> result.success(LatchlyMonitorService.isRunning)
+            "isServiceRunning" -> result.success(OpenLockMonitorService.isRunning)
             "startService" -> {
                 startService()
                 result.success(null)
@@ -149,7 +149,7 @@ class EnforcementPlugin(private val activity: Activity) :
         "overlay" to hasOverlay(),
         "notifications" to hasNotifications(),
         "batteryExempt" to isBatteryExempt(),
-        "serviceRunning" to LatchlyMonitorService.isRunning,
+        "serviceRunning" to OpenLockMonitorService.isRunning,
     )
 
     private fun hasUsageAccess(): Boolean {
@@ -214,7 +214,7 @@ class EnforcementPlugin(private val activity: Activity) :
     // --- Service control ----------------------------------------------------
 
     private fun startService() {
-        val intent = Intent(activity, LatchlyMonitorService::class.java)
+        val intent = Intent(activity, OpenLockMonitorService::class.java)
         runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 activity.startForegroundService(intent)
@@ -226,7 +226,7 @@ class EnforcementPlugin(private val activity: Activity) :
 
     private fun stopService() {
         runCatching {
-            activity.stopService(Intent(activity, LatchlyMonitorService::class.java))
+            activity.stopService(Intent(activity, OpenLockMonitorService::class.java))
         }
         LockSession.clearAll()
     }
@@ -266,7 +266,7 @@ class EnforcementPlugin(private val activity: Activity) :
     }
 
     companion object {
-        private const val CHANNEL = "latchly/enforcement"
+        private const val CHANNEL = "openlock/enforcement"
         private const val ICON_SIZE_PX = 96
         private const val REQ_NOTIFICATIONS = 9021
     }

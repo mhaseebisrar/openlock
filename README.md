@@ -41,7 +41,7 @@ Most app lockers ask for sign-ups, show ads, or phone home with the list of apps
 - Optional **decoy cover** — show a fake "app has stopped" dialog; a long-press reveals the real unlock
 
 **Yours to keep**
-- **Encrypted backup & restore** (`.ltbackup`) protected by a passphrase of your choosing
+- **Encrypted backup & restore** (`.olbackup`) protected by a passphrase of your choosing
 - Change your PIN, toggle fingerprint unlock, and manage everything from Settings
 
 ## 🧠 How it works
@@ -82,7 +82,7 @@ You can always remove protection yourself: toggle **Prevent uninstall** off (aut
 - **Your PIN is never stored.** OpenLock keeps only a salted **PBKDF2-HMAC-SHA256** verifier hash. The same algorithm runs in Dart and in native Kotlin so the lock screen can check your PIN offline, byte-for-byte identically.
 - **Encrypted at rest.** Your full config (locked apps, schedules, settings) is encrypted with **AES-256-GCM** under a random key held in Android's hardware-backed Keystore (`flutter_secure_storage`). The subset the native guard needs lives in **EncryptedSharedPreferences**.
 - **Intruder photos stay on the device**, in app-private storage, and can be deleted any time.
-- **Encrypted backups.** `.ltbackup` files are encrypted with a separate passphrase (Argon2id-derived key) — a backup file alone is useless to anyone else.
+- **Encrypted backups.** `.olbackup` files are encrypted with a separate passphrase (Argon2id-derived key) — a backup file alone is useless to anyone else.
 - **Device admin is used narrowly.** OpenLock declares only a minimal policy (to satisfy the schema) purely to block its own uninstall; it never locks, wipes, or manages your device, and deactivation is auth-gated.
 - **No accounts, no telemetry, no ads.**
 

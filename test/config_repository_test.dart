@@ -1,8 +1,8 @@
 import 'package:core_crypto/core_crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/enforcement/services/config_repository.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/enforcement/services/config_repository.dart';
 
 import 'helpers/fakes.dart';
 

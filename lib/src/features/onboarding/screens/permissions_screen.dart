@@ -3,9 +3,9 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/core/router/app_router.dart';
-import 'package:latchly/src/features/onboarding/providers/permissions_providers.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/router/app_router.dart';
+import 'package:openlock/src/features/onboarding/providers/permissions_providers.dart';
 
 /// Guided permissions checklist. Each item shows its live status and a button
 /// that opens the right system settings screen. A banner reflects whether

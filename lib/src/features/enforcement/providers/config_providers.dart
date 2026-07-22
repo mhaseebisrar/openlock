@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 /// Owns the [LockConfig] source of truth. Every mutation persists the config
 /// (encrypted) and re-pushes the enforcement subset to the native monitor.

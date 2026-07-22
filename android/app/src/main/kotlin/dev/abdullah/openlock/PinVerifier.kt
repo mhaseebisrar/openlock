@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.util.Base64
 import javax.crypto.SecretKeyFactory

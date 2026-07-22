@@ -3,11 +3,11 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/features/apps/providers/apps_providers.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
-import 'package:latchly/src/features/schedules/widgets/schedule_format.dart';
+import 'package:openlock/src/features/apps/providers/apps_providers.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/schedules/widgets/schedule_format.dart';
 
 class ScheduleEditorScreen extends ConsumerStatefulWidget {
   const ScheduleEditorScreen({this.scheduleId, super.key});

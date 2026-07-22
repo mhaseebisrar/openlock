@@ -5,8 +5,8 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/features/intruder/providers/intruder_providers.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/features/intruder/providers/intruder_providers.dart';
 
 class IntruderLogScreen extends ConsumerWidget {
   const IntruderLogScreen({super.key});

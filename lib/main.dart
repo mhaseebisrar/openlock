@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/app.dart';
+import 'package:openlock/src/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: LatchlyApp()));
+  runApp(const ProviderScope(child: OpenLockApp()));
 }

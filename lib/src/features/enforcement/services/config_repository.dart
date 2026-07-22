@@ -3,9 +3,9 @@ import 'dart:typed_data';
 
 import 'package:core_crypto/core_crypto.dart';
 import 'package:core_storage/core_storage.dart';
-import 'package:latchly/src/core/interfaces/config_file_store.dart';
-import 'package:latchly/src/core/storage_keys.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/core/interfaces/config_file_store.dart';
+import 'package:openlock/src/core/storage_keys.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
 
 /// Loads and persists the [LockConfig] encrypted at rest.
 ///
@@ -27,10 +27,10 @@ final class ConfigRepository {
   final IConfigFileStore _fileStore;
 
   Future<Uint8List> _key() async {
-    final existing = await _storage.read(key: LatchlyKeys.configKey);
+    final existing = await _storage.read(key: OpenLockKeys.configKey);
     if (existing != null) return Uint8List.fromList(base64Decode(existing));
     final key = await _cipher.generateSalt(); // 32 secure-random bytes
-    await _storage.write(key: LatchlyKeys.configKey, value: base64Encode(key));
+    await _storage.write(key: OpenLockKeys.configKey, value: base64Encode(key));
     return key;
   }
 

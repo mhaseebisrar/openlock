@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
-import 'package:latchly/src/features/auth/services/pin_hasher.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/features/auth/services/pin_hasher.dart';
 
 import 'helpers/fakes.dart';
 

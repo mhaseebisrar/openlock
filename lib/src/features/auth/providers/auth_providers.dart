@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/core/storage_keys.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/core/storage_keys.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
 
-/// High-level authentication state for opening the Latchly app itself.
+/// High-level authentication state for opening the OpenLock app itself.
 enum AuthStatus { unknown, needsSetup, locked, unlocked }
 
 /// Whether the first-run intro pages have been seen.
 final onboardingSeenProvider = FutureProvider<bool>((ref) async {
   final storage = ref.watch(secureStorageProvider);
-  return await storage.read(key: LatchlyKeys.onboardingSeen) == 'true';
+  return await storage.read(key: OpenLockKeys.onboardingSeen) == 'true';
 });
 
 final class SessionNotifier extends Notifier<AuthStatus> {
@@ -28,7 +28,7 @@ final class SessionNotifier extends Notifier<AuthStatus> {
   Future<void> completeOnboarding() async {
     await ref
         .read(secureStorageProvider)
-        .write(key: LatchlyKeys.onboardingSeen, value: 'true');
+        .write(key: OpenLockKeys.onboardingSeen, value: 'true');
     ref.invalidate(onboardingSeenProvider);
   }
 

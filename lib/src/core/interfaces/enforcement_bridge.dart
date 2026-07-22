@@ -86,7 +86,7 @@ final class IntruderRecord {
   final String? photoPath;
 }
 
-/// The bridge to the native enforcement layer (`latchly/enforcement`
+/// The bridge to the native enforcement layer (`openlock/enforcement`
 /// MethodChannel). Every platform interaction goes through this interface so
 /// the whole Flutter app is testable with an in-memory fake — no platform
 /// channels in tests.
@@ -95,7 +95,7 @@ abstract interface class IEnforcementBridge {
   /// EncryptedSharedPreferences the monitor service reads.
   Future<void> pushConfig(Map<String, dynamic> config);
 
-  /// The list of launchable apps (excluding Latchly and launcher-less system
+  /// The list of launchable apps (excluding OpenLock and launcher-less system
   /// apps) for the app picker.
   Future<List<InstalledApp>> getInstalledApps();
 

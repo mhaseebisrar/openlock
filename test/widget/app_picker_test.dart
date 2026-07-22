@@ -2,10 +2,10 @@ import 'package:core_theme/core_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/core/theme.dart';
-import 'package:latchly/src/features/apps/screens/app_picker_screen.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/theme.dart';
+import 'package:openlock/src/features/apps/screens/app_picker_screen.dart';
 
 import '../helpers/fakes.dart';
 
@@ -26,7 +26,7 @@ void main() {
           configFileStoreProvider.overrideWithValue(FakeConfigFileStore()),
         ],
         child: MaterialApp(
-          theme: AppTheme.build(Brightness.light, accent: latchlyAccent),
+          theme: AppTheme.build(Brightness.light, accent: openlockAccent),
           home: const AppPickerScreen(),
         ),
       ),

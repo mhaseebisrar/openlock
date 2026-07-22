@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.app.admin.DeviceAdminReceiver
 import android.content.Context

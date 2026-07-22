@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/enforcement/services/uninstall_guard.dart';
+import 'package:openlock/src/features/enforcement/services/uninstall_guard.dart';
 
 void main() {
   bool guard({

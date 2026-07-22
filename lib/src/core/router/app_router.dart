@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/core/shell/home_shell.dart';
-import 'package:latchly/src/features/apps/screens/app_picker_screen.dart';
-import 'package:latchly/src/features/auth/providers/auth_providers.dart';
-import 'package:latchly/src/features/auth/screens/setup_pin_screen.dart';
-import 'package:latchly/src/features/auth/screens/unlock_screen.dart';
-import 'package:latchly/src/features/backup/screens/backup_screen.dart';
-import 'package:latchly/src/features/intruder/screens/intruder_log_screen.dart';
-import 'package:latchly/src/features/onboarding/screens/onboarding_screen.dart';
-import 'package:latchly/src/features/onboarding/screens/permissions_screen.dart';
-import 'package:latchly/src/features/schedules/screens/schedule_editor_screen.dart';
-import 'package:latchly/src/features/schedules/screens/schedules_screen.dart';
-import 'package:latchly/src/features/settings/screens/about_screen.dart';
-import 'package:latchly/src/features/settings/screens/change_pin_screen.dart';
-import 'package:latchly/src/features/settings/screens/relock_settings_screen.dart';
-import 'package:latchly/src/features/settings/screens/settings_screen.dart';
+import 'package:openlock/src/core/shell/home_shell.dart';
+import 'package:openlock/src/features/apps/screens/app_picker_screen.dart';
+import 'package:openlock/src/features/auth/providers/auth_providers.dart';
+import 'package:openlock/src/features/auth/screens/setup_pin_screen.dart';
+import 'package:openlock/src/features/auth/screens/unlock_screen.dart';
+import 'package:openlock/src/features/backup/screens/backup_screen.dart';
+import 'package:openlock/src/features/intruder/screens/intruder_log_screen.dart';
+import 'package:openlock/src/features/onboarding/screens/onboarding_screen.dart';
+import 'package:openlock/src/features/onboarding/screens/permissions_screen.dart';
+import 'package:openlock/src/features/schedules/screens/schedule_editor_screen.dart';
+import 'package:openlock/src/features/schedules/screens/schedules_screen.dart';
+import 'package:openlock/src/features/settings/screens/about_screen.dart';
+import 'package:openlock/src/features/settings/screens/change_pin_screen.dart';
+import 'package:openlock/src/features/settings/screens/relock_settings_screen.dart';
+import 'package:openlock/src/features/settings/screens/settings_screen.dart';
 
 abstract final class AppRoutes {
   static const String splash = '/';

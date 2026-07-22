@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/auth/services/pin_hasher.dart';
+import 'package:openlock/src/features/auth/services/pin_hasher.dart';
 
 void main() {
   const hasher = PinHasher();

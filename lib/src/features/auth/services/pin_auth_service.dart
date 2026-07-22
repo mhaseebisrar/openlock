@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:core_storage/core_storage.dart';
-import 'package:latchly/src/core/clock.dart';
-import 'package:latchly/src/core/storage_keys.dart';
-import 'package:latchly/src/features/auth/services/pin_hasher.dart';
+import 'package:openlock/src/core/clock.dart';
+import 'package:openlock/src/core/storage_keys.dart';
+import 'package:openlock/src/features/auth/services/pin_hasher.dart';
 
-/// Result of a PIN unlock attempt against the app itself (opening Latchly).
+/// Result of a PIN unlock attempt against the app itself (opening OpenLock).
 sealed class UnlockResult {
   const UnlockResult();
 }
@@ -30,7 +30,7 @@ final class UnlockCoolingDown extends UnlockResult {
   final Duration remaining;
 }
 
-/// Owns the unlock PIN for the Latchly app itself: setup, verification,
+/// Owns the unlock PIN for the OpenLock app itself: setup, verification,
 /// change, and an escalating wrong-attempt cooldown. The same verifier hash it
 /// stores is pushed to the native layer so the on-top LockActivity checks the
 /// identical PIN.
@@ -53,13 +53,13 @@ final class PinAuthService {
   static const Duration maxCooldown = Duration(minutes: 15);
 
   Future<bool> hasPin() async =>
-      await _storage.read(key: LatchlyKeys.pinHash) != null;
+      await _storage.read(key: OpenLockKeys.pinHash) != null;
 
   /// The stored verifier hash and salt (base64), or null before setup. Used
   /// when assembling the native config map.
   Future<({String hash, String salt})?> verifier() async {
-    final hash = await _storage.read(key: LatchlyKeys.pinHash);
-    final salt = await _storage.read(key: LatchlyKeys.pinSalt);
+    final hash = await _storage.read(key: OpenLockKeys.pinHash);
+    final salt = await _storage.read(key: OpenLockKeys.pinSalt);
     if (hash == null || salt == null) return null;
     return (hash: hash, salt: salt);
   }
@@ -69,8 +69,8 @@ final class PinAuthService {
     assert(pin.length >= minPinLength, 'PIN must be at least 6 digits');
     final salt = _hasher.newSalt();
     final hash = await _hasher.hash(pin: pin, salt: salt);
-    await _storage.write(key: LatchlyKeys.pinHash, value: hash);
-    await _storage.write(key: LatchlyKeys.pinSalt, value: base64Encode(salt));
+    await _storage.write(key: OpenLockKeys.pinHash, value: hash);
+    await _storage.write(key: OpenLockKeys.pinSalt, value: base64Encode(salt));
     await _resetAttempts();
   }
 
@@ -92,7 +92,7 @@ final class PinAuthService {
 
     final attempts = await _failedAttempts() + 1;
     await _storage.write(
-      key: LatchlyKeys.failedAttempts,
+      key: OpenLockKeys.failedAttempts,
       value: attempts.toString(),
     );
 
@@ -101,7 +101,7 @@ final class PinAuthService {
       cooldown = cooldownFor(attempts);
       final until = _clock.now().add(cooldown);
       await _storage.write(
-        key: LatchlyKeys.lockoutUntil,
+        key: OpenLockKeys.lockoutUntil,
         value: until.millisecondsSinceEpoch.toString(),
       );
     }
@@ -122,7 +122,7 @@ final class PinAuthService {
   }
 
   Future<Duration> cooldownRemaining() async {
-    final raw = await _storage.read(key: LatchlyKeys.lockoutUntil);
+    final raw = await _storage.read(key: OpenLockKeys.lockoutUntil);
     if (raw == null) return Duration.zero;
     final until = DateTime.fromMillisecondsSinceEpoch(int.parse(raw));
     final diff = until.difference(_clock.now());
@@ -152,18 +152,18 @@ final class PinAuthService {
   }
 
   Future<void> eraseAll() async {
-    for (final key in LatchlyKeys.all) {
+    for (final key in OpenLockKeys.all) {
       await _storage.delete(key: key);
     }
   }
 
   Future<int> _failedAttempts() async {
-    final raw = await _storage.read(key: LatchlyKeys.failedAttempts);
+    final raw = await _storage.read(key: OpenLockKeys.failedAttempts);
     return raw == null ? 0 : int.parse(raw);
   }
 
   Future<void> _resetAttempts() async {
-    await _storage.delete(key: LatchlyKeys.failedAttempts);
-    await _storage.delete(key: LatchlyKeys.lockoutUntil);
+    await _storage.delete(key: OpenLockKeys.failedAttempts);
+    await _storage.delete(key: OpenLockKeys.lockoutUntil);
   }
 }

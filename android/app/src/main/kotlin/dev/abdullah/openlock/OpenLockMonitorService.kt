@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap
  * [UsageStatsManager] and throws up [LockActivity] over any locked app that is
  * not currently in an unlocked session (per relock policy + schedules).
  */
-class LatchlyMonitorService : Service() {
+class OpenLockMonitorService : Service() {
 
     private lateinit var store: ConfigStore
     private lateinit var usageStatsManager: UsageStatsManager
@@ -211,7 +211,7 @@ class LatchlyMonitorService : Service() {
         var isRunning: Boolean = false
             private set
 
-        private const val CHANNEL_ID = "latchly_monitor"
+        private const val CHANNEL_ID = "openlock_monitor"
         private const val NOTIFICATION_ID = 4711
         private const val POLL_INTERVAL_MS = 300L
         private const val LOOKBACK_MS = 10_000L

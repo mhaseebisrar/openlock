@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.Manifest
 import android.content.Context
@@ -60,7 +60,7 @@ object IntruderCapture {
             return
         }
 
-        val thread = HandlerThread("latchly-intruder").apply { start() }
+        val thread = HandlerThread("openlock-intruder").apply { start() }
         val handler = Handler(thread.looper)
         val done = AtomicBoolean(false)
         val reader = ImageReader.newInstance(480, 640, ImageFormat.JPEG, 1)

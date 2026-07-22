@@ -15,7 +15,7 @@ abstract interface class IConfigFileStore {
 final class DocumentsConfigFileStore implements IConfigFileStore {
   const DocumentsConfigFileStore();
 
-  static const String _fileName = 'latchly_config.bin';
+  static const String _fileName = 'openlock_config.bin';
 
   Future<File> _file() async {
     final dir = await getApplicationDocumentsDirectory();

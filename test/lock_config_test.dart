@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 void main() {
   LockConfig sample() => LockConfig(

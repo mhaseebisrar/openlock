@@ -4,13 +4,13 @@ import 'package:core_theme/core_theme.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/features/backup/services/backup_codec.dart';
-import 'package:latchly/src/features/enforcement/models/lock_config.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/features/backup/services/backup_codec.dart';
+import 'package:openlock/src/features/enforcement/models/lock_config.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
 import 'package:path_provider/path_provider.dart';
 
-/// Minimal, dependency-light backup: export writes an encrypted `.ltbackup`
+/// Minimal, dependency-light backup: export writes an encrypted `.olbackup`
 /// file into app storage and reports the path; import reads that file back with
 /// the passphrase. (A share-sheet / file-picker flow can be layered on later.)
 class BackupScreen extends ConsumerStatefulWidget {
@@ -33,7 +33,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
 
   Future<File> _backupFile() async {
     final dir = await getApplicationDocumentsDirectory();
-    return File('${dir.path}/latchly_backup.ltbackup');
+    return File('${dir.path}/openlock_backup.olbackup');
   }
 
   Future<void> _export() async {

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/enforcement/services/lock_policy_engine.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/enforcement/services/lock_policy_engine.dart';
 
 void main() {
   final now = DateTime(2026, 7, 8, 12, 0);

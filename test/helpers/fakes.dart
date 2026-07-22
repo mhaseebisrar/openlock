@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:core_storage/core_storage.dart';
-import 'package:latchly/src/core/clock.dart';
-import 'package:latchly/src/core/interfaces/biometric_auth.dart';
-import 'package:latchly/src/core/interfaces/config_file_store.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/core/interfaces/key_derivation.dart';
+import 'package:openlock/src/core/clock.dart';
+import 'package:openlock/src/core/interfaces/biometric_auth.dart';
+import 'package:openlock/src/core/interfaces/config_file_store.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/interfaces/key_derivation.dart';
 
 /// In-memory secure storage.
 final class FakeSecureStorage implements ISecureStorage {

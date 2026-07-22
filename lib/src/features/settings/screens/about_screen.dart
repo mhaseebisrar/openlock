@@ -1,7 +1,7 @@
 import 'package:core_theme/core_theme.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:latchly/src/core/app_info.dart';
+import 'package:openlock/src/core/app_info.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});

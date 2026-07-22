@@ -1,7 +1,7 @@
-name: latchly
+name: openlock
 description: OpenLock — an offline, open-source app lock that guards your apps behind a PIN, pattern, or fingerprint, with device-admin uninstall protection.
 publish_to: none
-version: 1.1.0+2
+version: 1.2.0+3
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -37,27 +37,27 @@ dependencies:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_crypto
-      ref: 475f0e6c78bff617324f82a080b51db84089f62e
+      ref: e356ccaddc45fcdfcabe19831dd222c380fda167
   core_storage:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_storage
-      ref: 475f0e6c78bff617324f82a080b51db84089f62e
+      ref: e356ccaddc45fcdfcabe19831dd222c380fda167
   core_security:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_security
-      ref: 475f0e6c78bff617324f82a080b51db84089f62e
+      ref: e356ccaddc45fcdfcabe19831dd222c380fda167
   core_theme:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_theme
-      ref: 475f0e6c78bff617324f82a080b51db84089f62e
+      ref: e356ccaddc45fcdfcabe19831dd222c380fda167
   core_ui:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_ui
-      ref: 475f0e6c78bff617324f82a080b51db84089f62e
+      ref: e356ccaddc45fcdfcabe19831dd222c380fda167
 
 dev_dependencies:
   flutter_test:

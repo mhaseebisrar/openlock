@@ -2,17 +2,17 @@ import 'package:core_crypto/core_crypto.dart';
 import 'package:core_storage/core_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:latchly/src/core/clock.dart';
-import 'package:latchly/src/core/interfaces/biometric_auth.dart';
-import 'package:latchly/src/core/interfaces/config_file_store.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
-import 'package:latchly/src/core/interfaces/key_derivation.dart';
-import 'package:latchly/src/core/services/method_channel_enforcement_bridge.dart';
-import 'package:latchly/src/features/auth/services/biometric_service.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
-import 'package:latchly/src/features/auth/services/pin_hasher.dart';
-import 'package:latchly/src/features/backup/services/backup_codec.dart';
-import 'package:latchly/src/features/enforcement/services/config_repository.dart';
+import 'package:openlock/src/core/clock.dart';
+import 'package:openlock/src/core/interfaces/biometric_auth.dart';
+import 'package:openlock/src/core/interfaces/config_file_store.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/interfaces/key_derivation.dart';
+import 'package:openlock/src/core/services/method_channel_enforcement_bridge.dart';
+import 'package:openlock/src/features/auth/services/biometric_service.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/features/auth/services/pin_hasher.dart';
+import 'package:openlock/src/features/backup/services/backup_codec.dart';
+import 'package:openlock/src/features/enforcement/services/config_repository.dart';
 
 /// Composition root. Tests override the leaf providers (storage, file store,
 /// clock, biometrics, enforcement bridge) with in-memory fakes — no platform

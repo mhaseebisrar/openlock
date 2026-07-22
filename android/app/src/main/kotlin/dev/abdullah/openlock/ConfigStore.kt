@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -153,7 +153,7 @@ class ConfigStore(context: Context) {
     }
 
     companion object {
-        private const val PREFS_NAME = "latchly_enforcement"
+        private const val PREFS_NAME = "openlock_enforcement"
         private const val KEY_CONFIG = "config"
         private const val KEY_INTRUDERS = "intruders"
     }

@@ -20,7 +20,7 @@
     <!-- Silent front-camera capture for the intruder log (optional feature). -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- Needed to enumerate the launchable apps the user can choose to lock.
-         Latchly only reads app labels/icons/package names locally; nothing
+         OpenLock only reads app labels/icons/package names locally; nothing
          about installed apps ever leaves the device. -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission"/>
@@ -52,12 +52,12 @@
 
         <!-- The on-top lock screen shown over a locked app. Native for
              reliability; dark + amber to match the brand; FLAG_SECURE set in
-             code. Not exported — only Latchly's own service launches it. -->
+             code. Not exported — only OpenLock's own service launches it. -->
         <activity
             android:name=".LockActivity"
             android:exported="false"
             android:launchMode="singleInstance"
-            android:taskAffinity="dev.abdullah.latchly.lock"
+            android:taskAffinity="dev.abdullah.openlock.lock"
             android:excludeFromRecents="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
@@ -66,7 +66,7 @@
 
         <!-- Persistent foreground service that watches the foreground app. -->
         <service
-            android:name=".LatchlyMonitorService"
+            android:name=".OpenLockMonitorService"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property

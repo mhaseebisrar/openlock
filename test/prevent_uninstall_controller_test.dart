@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
-import 'package:latchly/src/features/settings/providers/settings_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/features/settings/providers/settings_providers.dart';
 
 import 'helpers/fakes.dart';
 

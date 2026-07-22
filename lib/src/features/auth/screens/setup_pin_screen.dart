@@ -3,9 +3,9 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latchly/src/core/router/app_router.dart';
-import 'package:latchly/src/features/auth/providers/auth_providers.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/core/router/app_router.dart';
+import 'package:openlock/src/features/auth/providers/auth_providers.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
 
 /// First-run PIN creation: enter a 6+ digit PIN, confirm it, see a strength
 /// hint, then move on to the permissions checklist.

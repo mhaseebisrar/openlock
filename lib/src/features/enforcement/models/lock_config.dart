@@ -1,5 +1,5 @@
-import 'package:latchly/src/features/enforcement/models/relock_policy.dart';
-import 'package:latchly/src/features/schedules/models/lock_schedule.dart';
+import 'package:openlock/src/features/enforcement/models/relock_policy.dart';
+import 'package:openlock/src/features/schedules/models/lock_schedule.dart';
 
 /// The Flutter-side source of truth for everything the lock behaves by. Stored
 /// encrypted at rest (AES-256-GCM, key in secure storage). The *subset* the

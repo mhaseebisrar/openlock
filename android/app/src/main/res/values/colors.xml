@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Latchly brand — amber guard on near-black, used by the native
+    <!-- OpenLock brand — amber guard on near-black, used by the native
          LockActivity and monitor notification. -->
     <color name="lockBackground">#FF0B0B0D</color>
     <color name="lockSurface">#FF18181B</color>

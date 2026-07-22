@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:core_theme/core_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latchly/src/core/di.dart';
-import 'package:latchly/src/features/auth/providers/auth_providers.dart';
-import 'package:latchly/src/features/auth/services/pin_auth_service.dart';
-import 'package:latchly/src/features/auth/widgets/pin_entry_panel.dart';
-import 'package:latchly/src/features/enforcement/providers/config_providers.dart';
+import 'package:openlock/src/core/di.dart';
+import 'package:openlock/src/features/auth/providers/auth_providers.dart';
+import 'package:openlock/src/features/auth/services/pin_auth_service.dart';
+import 'package:openlock/src/features/auth/widgets/pin_entry_panel.dart';
+import 'package:openlock/src/features/enforcement/providers/config_providers.dart';
 
-/// Unlock gate for opening Latchly itself. PIN, optional fingerprint, and an
+/// Unlock gate for opening OpenLock itself. PIN, optional fingerprint, and an
 /// escalating cooldown after repeated wrong attempts.
 class UnlockScreen extends ConsumerStatefulWidget {
   const UnlockScreen({super.key});
@@ -99,9 +99,31 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.lock_rounded, size: 48, color: scheme.primary),
-                const SizedBox(height: AppSpacing.md),
-                const Text('Enter your PIN', style: AppTextStyles.h2),
+                Container(
+                  width: 88,
+                  height: 88,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: scheme.primaryContainer.withValues(alpha: 0.6),
+                    border: Border.all(
+                      color: scheme.primary.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.lock_outline,
+                    size: 44,
+                    color: scheme.primary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text('OpenLock', style: AppTextStyles.h1),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  'Enter your PIN to unlock',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
                 const SizedBox(height: AppSpacing.sm),
                 SizedBox(
                   height: 20,

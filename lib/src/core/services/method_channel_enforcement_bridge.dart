@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:latchly/src/core/interfaces/enforcement_bridge.dart';
+import 'package:openlock/src/core/interfaces/enforcement_bridge.dart';
 
-/// Production [IEnforcementBridge] backed by the `latchly/enforcement`
+/// Production [IEnforcementBridge] backed by the `openlock/enforcement`
 /// MethodChannel. Native side lives in the Kotlin `EnforcementPlugin`.
 final class MethodChannelEnforcementBridge implements IEnforcementBridge {
   const MethodChannelEnforcementBridge();
 
-  static const MethodChannel _channel = MethodChannel('latchly/enforcement');
+  static const MethodChannel _channel = MethodChannel('openlock/enforcement');
 
   @override
   Future<void> pushConfig(Map<String, dynamic> config) async {

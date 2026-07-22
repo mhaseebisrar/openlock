@@ -1,4 +1,4 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,7 +19,7 @@ class BootReceiver : BroadcastReceiver() {
         val hasWork = store.lockedPackages().isNotEmpty() || store.schedules().length() > 0
         if (store.pinHash() == null || !hasWork) return
 
-        val serviceIntent = Intent(context, LatchlyMonitorService::class.java)
+        val serviceIntent = Intent(context, OpenLockMonitorService::class.java)
         runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(serviceIntent)

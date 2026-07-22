@@ -1,9 +1,9 @@
-package dev.abdullah.latchly
+package dev.abdullah.openlock
 
 import java.util.concurrent.ConcurrentHashMap
 
 /**
- * Shared, in-memory session state between [LatchlyMonitorService] and
+ * Shared, in-memory session state between [OpenLockMonitorService] and
  * [LockActivity]. Deliberately not persisted: unlocks live only for the
  * current boot/session so a reboot re-locks everything.
  */
