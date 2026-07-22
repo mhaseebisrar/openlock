@@ -1,6 +1,9 @@
 package dev.abdullah.openlock
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.ImageFormat
@@ -33,6 +36,7 @@ object IntruderCapture {
         fun finish(photoPath: String?) {
             if (recorded.compareAndSet(false, true)) {
                 store.addIntruder(packageName, System.currentTimeMillis(), photoPath)
+                notifyIntruder(context.applicationContext, photoPath != null)
             }
         }
 
@@ -51,6 +55,47 @@ object IntruderCapture {
         } catch (e: Exception) {
             finish(null)
         }
+    }
+
+    private const val channelId = "openlock_intruder"
+
+    // Posts a heads-up that a failed-unlock attempt was recorded. The photo
+    // (if any) stays on-device; the notification only signals it happened.
+    private fun notifyIntruder(context: Context, hasPhoto: Boolean) {
+        val nm = context.getSystemService(NotificationManager::class.java)
+            ?: return
+        nm.createNotificationChannel(
+            NotificationChannel(
+                channelId,
+                "Intruder alerts",
+                NotificationManager.IMPORTANCE_HIGH,
+            ),
+        )
+        val launch = context.packageManager
+            .getLaunchIntentForPackage(context.packageName)
+        val pi = launch?.let {
+            android.app.PendingIntent.getActivity(
+                context,
+                0,
+                it,
+                android.app.PendingIntent.FLAG_UPDATE_CURRENT or
+                    android.app.PendingIntent.FLAG_IMMUTABLE,
+            )
+        }
+        val notification = Notification.Builder(context, channelId)
+            .setContentTitle("Failed unlock attempt")
+            .setContentText(
+                if (hasPhoto) {
+                    "A photo was captured. Tap to view the intruder log."
+                } else {
+                    "Someone missed the unlock. Tap to view the intruder log."
+                },
+            )
+            .setSmallIcon(android.R.drawable.ic_lock_lock)
+            .setAutoCancel(true)
+            .apply { if (pi != null) setContentIntent(pi) }
+            .build()
+        nm.notify(5711, notification)
     }
 
     private fun capture(context: Context, onDone: (String?) -> Unit) {

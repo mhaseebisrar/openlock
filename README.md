@@ -4,7 +4,7 @@
 
 ### Lock any app behind your PIN.
 
-Pick the apps that matter and OpenLock guards them with a PIN, pattern position, or fingerprint — with focus schedules, uninstall protection, and an intruder log, all offline.
+Pick the apps that matter and OpenLock guards them with a PIN or fingerprint — with focus schedules, uninstall protection, and an intruder log, all offline.
 
 ![License](https://img.shields.io/badge/License-MIT-D97706?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-Android-D97706?style=flat-square&logo=android)

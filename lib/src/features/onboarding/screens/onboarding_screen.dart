@@ -24,8 +24,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     _OnboardingPage(
       Icons.shield_rounded,
       'Lock the apps that matter',
-      'Pick any apps on your phone and OpenLock keeps them behind your PIN, '
-          'pattern, or fingerprint.',
+      'Pick any apps on your phone and OpenLock keeps them behind your PIN '
+          'or fingerprint.',
     ),
     _OnboardingPage(
       Icons.schedule_rounded,
