@@ -1,7 +1,7 @@
 name: openlock
 description: OpenLock — an offline, open-source app lock that guards your apps behind a PIN, pattern, or fingerprint, with device-admin uninstall protection.
 publish_to: none
-version: 1.4.0+5
+version: 1.4.1+6
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -37,32 +37,32 @@ dependencies:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_crypto
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
   core_storage:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_storage
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
   core_security:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_security
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
   core_theme:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_theme
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
   core_ui:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_ui
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
   core_update:
     git:
       url: https://github.com/MalicKAbdullah/secure-suite-core.git
       path: core_update
-      ref: 80ed81269968f90534bc2224e7be21e138f5d122
+      ref: 2e656ff9d26a8ba458438842096a081a0339b308
 
 dev_dependencies:
   flutter_test:
